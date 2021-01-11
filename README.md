@@ -1,3 +1,3 @@
-#Data_Modeling_with_Postgres
-###Table schema idea
+# Data_Modeling_with_Postgres
+### Table schema idea
 
