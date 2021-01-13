@@ -7,7 +7,11 @@ def create_database():
     - Returns the connection and cursor to sparkifydb
     """
     # connect to default database
-    conn = psycopg2.connect("host=127.0.0.1 port=5432 dbname=udacity user=postgres ")
+    conn = psycopg2.connect(host='127.0.0.1',\
+                            port='5432',\
+                            dbname='udacity',\
+                            user='postgres',\
+                            password='')
     conn.set_session(autocommit=True)
     cur = conn.cursor()
   
@@ -19,7 +23,11 @@ def create_database():
     conn.close()    
     
     # connect to sparkify database
-    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+    conn = psycopg2.connect(host='127.0.0.1',\
+                            port='5432',\
+                            dbname='sparkifydb',\
+                            user='postgres',\
+                            password='')
     cur = conn.cursor()
     
     return cur, conn
