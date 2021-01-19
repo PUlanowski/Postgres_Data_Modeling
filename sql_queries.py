@@ -9,12 +9,12 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 # CREATE TABLES
 
 songplay_table_create = ("CREATE TABLE IF NOT EXISTS songplays(\
-                songplay_id integer,\
-                start_time timestamp UNIQUE,\
-                user_id integer UNIQUE,\
+                songplay_id serial PRIMARY KEY,\
+                start_time bigint,\
+                user_id varchar,\
                 level varchar,\
-                song_id varchar UNIQUE,\
-                artist_id varchar UNIQUE,\
+                song_id varchar,\
+                artist_id varchar,\
                 session_id integer,\
                 location varchar,\
                 user_agent varchar);")
@@ -42,7 +42,7 @@ song_table_create = ("CREATE TABLE IF NOT EXISTS songs(\
 
 time_table_create = ("CREATE TABLE IF NOT EXISTS time(\
                 start_time timestamp,\
-                hour time,\
+                hour integer,\
                 day integer,\
                 week integer,\
                 month integer,\
@@ -51,38 +51,69 @@ time_table_create = ("CREATE TABLE IF NOT EXISTS time(\
                 
 # INSERT RECORDS
 
-songplay_table_insert = ("""
-""")
+songplay_table_insert = ("INSERT INTO songplays\
+                         (start_time,\
+                          user_id,\
+                          level,\
+                          song_id,\
+                          artist_id,\
+                          session_id,\
+                          location,\
+                          user_agent)\
+                          VALUES (%s, %s, %s, %s, %s, %s, %s, %s)\
+                              ON CONFLICT DO NOTHING;")
+                        
 
-user_table_insert = ("INSERT INTO users (user_id,\
+user_table_insert = ("INSERT INTO users\
+                        (user_id,\
                         first_name,\
                         last_name,\
                         gender,\
                         level)\
                         VALUES (%s, %s, %s, %s, %s);")
 
-song_table_insert =  ("INSERT INTO songs (song_id,\
+song_table_insert =  ("INSERT INTO songs\
+                        (song_id,\
                         title,\
                         artist_id,\
                         year,\
                         duration)\
-                        VALUES (%s, %s, %s, %s, %s);")
+                        VALUES (%s, %s, %s, %s, %s)\
+                            ON CONFLICT DO NOTHING;")
+                        
 
-artist_table_insert = ("INSERT INTO artists (artist_id,\
+artist_table_insert = ("INSERT INTO artists\
+                        (artist_id,\
                         name,\
                         location,\
                         latitude,\
                         longitude)\
-                        VALUES (%s, %s, %s, %s, %s);")
+                        VALUES (%s, %s, %s, %s, %s)\
+                            ON CONFLICT DO NOTHING;;")
 
 
-time_table_insert = ("""
-""")
+time_table_insert = ("INSERT INTO time\
+                        (start_time,\
+                        hour,\
+                        day,\
+                        week,\
+                        month,\
+                        year,\
+                        weekday)\
+                        VALUES (%s, %s, %s, %s, %s, %s, %s);")
 
 # FIND SONGS
 
-song_select = ("""
-""")
+song_select = ("SELECT s.song_id, a.artist_id FROM songs AS s\
+                JOIN artists AS a\
+                   ON a.artist_id = s.artist_id\
+                WHERE s.title = %s\
+                    AND\
+                    a.name = %s\
+                    AND\
+                    s.duration = %s;")
+                    
+
 
 # QUERY LISTS
 
