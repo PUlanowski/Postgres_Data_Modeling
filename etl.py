@@ -5,8 +5,22 @@ import pandas as pd
 from sql_queries import *
 
 
-
 def process_song_file(cur, filepath):
+    '''
+    Processing song file and populating DB tables.
+
+    Parameters
+    ----------
+    cur : TYPE
+        DESCRIPTION.
+    filepath : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''
     # open song file
 
     df = pd.DataFrame()
@@ -23,8 +37,22 @@ def process_song_file(cur, filepath):
     artist_data = artist_data.values[0].tolist()
     cur.execute(artist_table_insert, artist_data)
 
-
 def process_log_file(cur, filepath):
+    '''
+    Processing log file and populating DB tables.
+    
+    Parameters
+    ----------
+    cur : attributes
+        paramater for psycopg2
+    filepath : TYPE: string
+        filepaths to both song and log files
+
+    Returns
+    -------
+    None.
+
+    '''
     # open log file
     df = pd.DataFrame()
     df = pd.read_json(filepath,lines=True)
@@ -72,7 +100,28 @@ def process_log_file(cur, filepath):
     cur.execute(songplay_table_insert, songplay_data)
 
 
+
 def process_data(cur, conn, filepath, func):
+    '''
+    This function is processing and checking files from songs and log json repository.
+
+    Parameters
+    ----------
+    cur : function
+        paramater for psycopg2
+    conn : function
+        connection to database with connection attributes
+    filepath : TYPE: string
+        filepaths to both song and log files
+    func : TYPE: variable
+        invoke function
+
+    Returns
+    -------
+    all_files : list
+        list of json files from song ang log repository
+
+    '''
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -89,9 +138,16 @@ def process_data(cur, conn, filepath, func):
         func(cur, datafile)
         conn.commit()
         print('{}/{} files processed.'.format(i, num_files))
-    
-
+        
+        
 def main():
+    '''
+    Orchestrating whole etl script.
+    Input are connection to appropriate database.
+    -------
+    None.
+
+    '''
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=postgres password=")
     cur = conn.cursor()
 
