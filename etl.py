@@ -64,7 +64,6 @@ def process_log_file(cur, filepath):
     time_df = pd.DataFrame()
     ts = df_nextsong[['ts']]
     ts = pd.to_datetime(ts['ts'], unit = 'ms')
-    #ts = pd.to_datetime(ts.dt.strftime('%Y-%m-%dT%H:%M%:%SZ'))
     
     # insert time data records
     column_labels = ('start_time','hour','day','weekofyear','month','year','weekday')
@@ -148,7 +147,8 @@ def main():
     None.
 
     '''
-    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=postgres password=")
+    #priv: conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=postgres password=")
+    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
     process_data(cur, conn, filepath='data/song_data', func=process_song_file)

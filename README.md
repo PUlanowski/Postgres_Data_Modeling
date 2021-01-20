@@ -26,3 +26,15 @@ This project contains two main files and flat database. It was done and tested o
     b) proces_data(..) - fetches data from main() and process files from songs and logs folders to prepare input list to be parsed into DataFrames. Also it reports quantity of processed files. 
     c)process_song_file(..) - creates DataFrame with song details and inserting appropriate records into respective tables
     d)process_log_file(..) - creates DataFrame with log details and inserting appropriate records into respective tables. Also performs a matching for songplay_data to complete songplay table. 
+    
+### Database layout
+
+1. songplay - fact table with songplay_id as it's primary key, which will be generated automatically by Postgress to ensure uniqueness
+2. artist - dimension table with artists data, artist_id is unique thus set as primary key
+3. songs - dimension table with songs data, song_id is unique thus set as primary key
+4. users - dimension table contains all users with appropriate data, user can log multiple time thus no primary key is set here
+5. time - dimension table created based on start_time and converted for analysis purposes
+
+###Schema layout
+
+![schema](schema.png) 
