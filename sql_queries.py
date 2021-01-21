@@ -84,6 +84,7 @@ song_table_insert =  ("INSERT INTO songs\
                         year,\
                         duration)\
                         VALUES (%s, %s, %s, %s, %s)\
+                            ON CONFLICT(user_id) DO UPDATE SET level = excluded.level\
                             ON CONFLICT DO NOTHING;")
                         
 
