@@ -35,6 +35,6 @@ This project contains two main files and flat database. It was done and tested o
 4. users - dimension table contains all users with appropriate data, user can log multiple time thus no primary key is set here
 5. time - dimension table created based on start_time and converted for analysis purposes
 
-###Schema layout
+### Schema layout
 
 ![schema](schema.png) 
